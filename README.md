@@ -1,30 +1,39 @@
 # Sparse-Bayesian-Learing-for-Regression with Monte Carlo Error Measurement
 
 
+This repository contains code for solving the regression problem using Sparse Bayesian Learning (SBL) algorithm.
 
-This code implements the Sparse Bayesian Learning (SBL) algorithm to solve a regression problem, based on the model described by Tipping in his paper. Monte Carlo error measurement is used to evaluate the performance of the model.
+## Problem Statement
 
-## Code
+The problem is to estimate a weight vector `w` given input feature vector `x` and target vector `t` such that `t = Phi*w + noise` where `Phi` is a matrix of size NxM and `noise` is a Gaussian noise with variance `sigma^2`.
 
-The code is written in MATLAB and can be found in the following file: `sbl_regression.m`.
+## Solution Approach
 
-## Simulation Parameters
+SBL algorithm can be used to estimate `w` in a sparse and efficient way. The steps involved in SBL algorithm are:
 
-- `num_runs`: number of independent runs (default = 10)
-- `rng_seed`: random seed for reproducibility (default = 123)
-- `N`: number of data points (default = 20)
-- `M`: number of features (default = 40)
-- `D0`: sparsity level (default = 7)
-- `noise_variances`: noise variances (in dB) (default = [-20, -15, -10, -5, 0])
-- `a`: prior mean of weights (default = 0)
-- `b`: prior precision (inverse variance) of weights (default = 1e-6)
-- `gamma`: regularization parameter for alpha (default = 1e-6)
+1. Initialize `w` to zero.
+2. Update `w` using SBL algorithm until convergence is reached.
+3. Compute the NMSE of the estimated `w`.
 
-## Output
+## Code Explanation
 
-The code outputs a plot of the Normalized Mean Squared Error (NMSE) vs. the noise variance (in dB) for each run. The mean and standard deviation of the NMSE across all runs are also computed and displayed.
+The `sbl_regression.m` file contains the code for solving the above problem. The code reads as follows:
+
+1. Set the problem parameters, such as number of input features `N`, number of basis functions `M`, and sparsity level of weight vector `D`.
+2. Set the prior mean of weights `a` and prior precision `b`.
+3. Generate a random sparse weight vector `w` of size Mx1 with D non-zero elements.
+4. Generate a random matrix `Phi` of size NxM and a noise vector `n` of size Nx1 with variance `sigma^2`.
+5. Update the weight vector `w` using SBL algorithm until convergence is reached.
+6. Compute the NMSE of the estimated `w` using the formula `norm(w_new-w)^2/norm(w)^2`.
+7. Repeat steps 3 to 6 `num_runs` times and average the NMSE over `num_runs` to get the final result.
+8. Plot the NMSE vs Noise Variance graph.
 
 ## Usage
 
-To run the code, simply run the `sbl_regression.m` script in MATLAB. You can modify the simulation parameters in the script to customize the experiment.
+To use the code, simply run the `sbl_regression.m` file in MATLAB. The code contains all the necessary parameters and can be customized as needed.
 
+## References
+
+1. Tipping, M. E. (2001). Sparse Bayesian learning and the relevance vector machine. The Journal of Machine Learning Research, 1, 211-244.
+
+2. Bishop, C. M. (2006). Pattern recognition and machine learning (Vol. 1). springer.
